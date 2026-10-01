@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário de Futebol</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: white;
+    }
+
+    header {
+      background: #111827;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #263244;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      color: #9ca3af;
+      margin-bottom: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    select,
+    input,
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      background: #16a34a;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #15803d;
+    }
+
+    .status {
+      background: #111827;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      color: #9ca3af;
+    }
+
+    .jogo {
+      background: #111827;
+      border: 1px solid #263244;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+
+    .data {
+      color: #22c55e;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .times {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .vs {
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .liga {
+      margin-top: 12px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .erro {
+      background: #7f1d1d;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .carregando {
+      text-align: center;
+      padding: 30px;
+      color: #9ca3af;
+    }
+
+    @media (min-width: 600px) {
+      .controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .controls button {
+        grid-column: span 2;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>⚽ Calendário de Futebol</h1>
+    <p>Jogos e calendários atualizados automaticamente</p>
+  </header>
+
+  <main class="container">
+
+    <div class="controls">
+
+      <input
+        type="date"
+        id="data"
+      >
+
+      <select id="liga">
+        <option value="">Todas as ligas</option>
+        <option value="39">Premier League</option>
+        <option value="140">La Liga</option>
+        <option value="135">Serie A</option>
+        <option value="78">Bundesliga</option>
+        <option value="61">Ligue 1</option>
+        <option value="94">Primeira Liga</option>
+      </select>
+
+      <button onclick="buscarJogos()">
+        🔎 Procurar jogos
+      </button>
+
+    </div>
+
+    <div class="status" id="status">
+      Escolha uma data para consultar os jogos.
+    </div>
+
+    <div id="jogos"></div>
+
+  </main>
+
+  <script>
+
+    /*
+      IMPORTANTE:
+
+      A API será ligada na próxima etapa.
+
+      NÃO coloque a sua chave da API aqui ainda.
+    */
+
+    const API_URL = "https://v3.football.api-sports.io";
+
+    function dataHoje() {
+      const hoje = new Date();
+
+      const ano = hoje.getFullYear();
+      const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+      const dia = String(hoje.getDate()).padStart(2, "0");
+
+      return `${ano}-${mes}-${dia}`;
+    }
+
+    document.getElementById("data").value = dataHoje();
+
+    async function buscarJogos() {
+
+      const data = document.getElementById("data").value;
+      const liga = document.getElementById("liga").value;
+
+      const jogosDiv = document.getElementById("jogos");
+      const status = document.getElementById("status");
+
+      if (!data) {
+        status.innerHTML = "⚠️ Escolha uma data.";
+        return;
+      }
+
+      jogosDiv.innerHTML =
+        '<div class="carregando">⏳ A procurar jogos...</div>';
+
+      status.innerHTML =
+        `📅 Jogos de ${data}`;
+
+      /*
+        A ligação real à API será adicionada
+        depois de configurarmos a chave.
+      */
+
+      jogosDiv.innerHTML = `
+        <div class="jogo">
+          <div class="data">⚽ Calendário preparado</div>
+
+          <div class="times">
+            <span>Time da casa</span>
+            <span class="vs">VS</span>
+            <span>Time visitante</span>
+          </div>
+
+          <div class="liga">
+            A API de futebol será ligada na próxima etapa.
+          </div>
+        </div>
+      `;
+    }
+
+  </script>
+
+</body>
+</html>
